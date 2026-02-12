@@ -13,6 +13,12 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --font-sans: 'Inter', system-ui, sans-serif;
     --base-font-size: 16px;
+    --story-font: 'Playfair Display', serif;
+    --story-line-height: 2.2;
+    --story-letter-spacing: 0px;
+    --story-font-size-custom: 24px;
+    --prologue-margin: 100px;
+    --wake-glow: rgba(255, 80, 0, 0.4);
 }
 
 html, body {
@@ -35,6 +41,138 @@ html, body {
     align-items: center; justify-content: center; height: 100vh; overflow: hidden;
 }
 
+/* 3D Game World Styles */
+.game-container {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: #000;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.game-container.faded-in {
+    opacity: 1;
+}
+
+.game-fade-overlay {
+    position: absolute;
+    inset: 0;
+    background: black;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.game-canvas-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.game-ui-overlay {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.game-hint {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.game-menu-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.game-menu-stack-minimal {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-close-x {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+}
+
+.menu-close-x:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.menu-action-btn-float {
+    padding: 16px 40px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: var(--font-sans);
+    width: 100%;
+    margin-bottom: 16px;
+    backdrop-filter: blur(4px);
+}
+
+.menu-action-btn-float:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.menu-action-btn-float.primary {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border-color: #fff;
+}
+
+.menu-action-btn-float.primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+.menu-action-btn-float.danger {
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.2);
+}
+
+.menu-action-btn-float.danger:hover {
+    background: rgba(255, 107, 107, 0.1);
+    border-color: rgba(255, 107, 107, 0.5);
+}
+
 /* Story View Scrolling */
 .story-view {
     width: 100%;
@@ -52,7 +190,6 @@ html, body {
     max-width: 1000px;
     overflow-y: scroll;
     padding: 0 80px;
-    /* Mask allows text to be invisible at top/bottom and clear in the middle */
     mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
     transition: opacity 2s ease-in-out, filter 2s ease-in-out;
 }
@@ -71,7 +208,6 @@ html, body {
     filter: blur(20px);
 }
 
-/* Hide scrollbar but keep functionality */
 .story-scroll-container::-webkit-scrollbar {
     display: none;
 }
@@ -81,9 +217,10 @@ html, body {
 }
 
 .story-content {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    line-height: 2.2;
+    font-family: var(--story-font);
+    font-size: var(--story-font-size-custom);
+    line-height: var(--story-line-height);
+    letter-spacing: var(--story-letter-spacing);
     color: rgba(255, 255, 255, 0.85);
     text-shadow: 0 4px 12px rgba(0,0,0,0.5);
     width: 100%;
@@ -95,7 +232,7 @@ html, body {
 
 .prologo-header {
     font-size: 3rem; 
-    margin-bottom: 6rem;
+    margin-bottom: var(--prologue-margin);
     letter-spacing: 0.4em;
     text-transform: uppercase;
     font-weight: 400;
@@ -108,7 +245,7 @@ html, body {
 }
 
 .story-start-spacer {
-    height: 85vh; /* Enough height to push Prologo below the lower gradient mask */
+    height: 85vh;
 }
 
 .story-end-spacer {
@@ -133,7 +270,71 @@ html, body {
     letter-spacing: 0.15em;
     color: rgba(255, 255, 255, 0.95);
     animation: dramaticEntrance 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    text-shadow: 0 0 40px rgba(255, 80, 0, 0.4);
+    text-shadow: 0 0 40px var(--wake-glow);
+}
+
+/* Editor Sidebar UI */
+.editor-sidebar {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    width: 180px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 1000;
+}
+
+.editor-sidebar h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+.editor-object-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.editor-obj-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.editor-obj-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.editor-obj-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-color: #fff;
+}
+
+.editor-controls-info {
+    font-size: 0.7rem;
+    color: #444;
+    text-align: center;
+    line-height: 1.4;
 }
 
 /* Home UI */
@@ -231,6 +432,14 @@ html, body {
     animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.settings-scroll {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.settings-scroll::-webkit-scrollbar { width: 4px; }
+.settings-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+
 .settings-field { display: flex; flex-direction: column; gap: 8px; }
 .settings-field label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #555; font-weight: 600; }
 .settings-field input[type="text"] { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px 16px; border-radius: 12px; color: #fff; outline: none; font-family: inherit; }
@@ -242,6 +451,188 @@ html, body {
 .color-options { display: flex; gap: 12px; }
 .color-bubble { width: 32px; height: 32px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
 .color-bubble.active { border-color: #fff; transform: scale(1.1); }
+
+/* Control Customization UI */
+.settings-section-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 8px 0;
+}
+
+.controls-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.control-row input[type="range"] {
+    width: 120px;
+}
+
+.key-record-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 8px;
+    min-width: 80px;
+    cursor: pointer;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+}
+
+.key-record-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.key-record-btn.recording {
+    background: rgba(255, 80, 0, 0.2);
+    border-color: rgba(255, 80, 0, 0.5);
+    animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 80, 0, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 80, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 80, 0, 0); }
+}
+
+/* Master Mode Styles */
+.master-mode-trigger {
+    margin-top: 8px;
+}
+
+.menu-button.master-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.menu-button.master-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.master-panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.master-panel-card {
+    background: #09090b;
+    border: 1px solid var(--glass-border);
+    width: 800px;
+    max-width: 95vw;
+    height: 90vh;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+    animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.master-header {
+    padding: 32px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.master-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.master-close {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.master-close:hover {
+    color: #fff;
+}
+
+.master-body {
+    padding: 32px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.master-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.master-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.master-textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 16px;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.master-textarea:focus {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.master-controls-row {
+    display: flex;
+    gap: 24px;
+}
+
+.settings-field.half {
+    flex: 1;
+}
+
+.settings-field.third {
+    flex: 1;
+}
+
+.settings-field.quarter {
+    flex: 1;
+}
+
+.master-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 16px;
+}
 
 .exit-confirm-overlay {
     position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 2000; animation: fadeIn 0.3s ease;
@@ -256,9 +647,6 @@ html, body {
 .confirm-btn.yes { background: #fff; color: #000; }
 .confirm-btn.no { background: rgba(255,255,255,0.05); color: #fff; }
 
-.terminated-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #000; z-index: 9999; }
-.terminated-content p { font-family: serif; font-style: italic; font-size: 2rem; color: #444; letter-spacing: 0.1em; animation: pulseFade 2s infinite ease-in-out; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 @keyframes dramaticEntrance { 0% { opacity: 0; filter: blur(20px); transform: translateY(40px) scale(0.95); } 100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
@@ -268,4 +656,5 @@ html, body {
     .story-content { font-size: 1.1rem; }
     .wake-up-text { font-size: 2.5rem; }
     .prologo-header { font-size: 2rem; }
+    .master-panel-card { width: 95vw; height: 90vh; }
 }
