@@ -16,7 +16,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build EXE
+      - name: Build Web Files (Vite)
+        run: npm run build
+
+      - name: Build EXE (Electron)
         run: npx electron-builder --windows
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiJuego-Steam-EXE
+          path: build_out/*.exe
