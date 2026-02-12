@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
+      base: './', // <--- ¡ESTO ES LO QUE ARREGLA LA PANTALLA BLANCA!
       server: {
         port: 3000,
         host: '0.0.0.0',
@@ -16,8 +17,12 @@ export default defineConfig(({ mode }) => {
       },
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, '.'),
+          '@': path.resolve(__dirname, './src'), // Apunta a src para mejores rutas
         }
+      },
+      build: {
+        outDir: 'dist',
+        assetsDir: 'assets',
       }
     };
 });
