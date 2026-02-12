@@ -1,0 +1,284 @@
+
+/* index.css - Umbrae Immersive Design */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+:root {
+    --app-bg: #010103; 
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --accent-color: #ffffff;
+    --border-color: #27272a;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+html, body {
+    height: 100%; margin: 0; padding: 0;
+    font-family: var(--font-sans);
+    background-color: var(--app-bg);
+    overflow: hidden;
+}
+
+.brightness-overlay {
+    position: fixed; inset: 0; background: black; z-index: 1000;
+    mix-blend-mode: multiply; pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.immersive-app {
+    flex: 1; position: relative; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; height: 100vh; overflow: hidden;
+}
+
+/* Glitch Effect & Subtitle Centering */
+.gothic-subtitle {
+    font-style: italic; 
+    font-family: serif; 
+    letter-spacing: 0.05em; 
+    color: #888; 
+    min-height: 1.5em;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.subtitle-container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.gothic-subtitle.glitch {
+    animation: glitchText 0.2s infinite;
+}
+
+@keyframes glitchText {
+    0% { transform: translate(0); text-shadow: -1px 0 red, 1px 0 cyan; }
+    20% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    60% { transform: translate(-1px, 0); text-shadow: 1px 0 red, -1px 0 cyan; }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); }
+}
+
+/* UI Layout Refinement */
+.start-menu-stack {
+    display: flex; flex-direction: column; gap: 14px; width: 280px; align-items: center;
+    animation: dramaticEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.8s;
+    opacity: 0;
+}
+
+.menu-button {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #888; padding: 12px 32px; border-radius: 99px;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: var(--font-sans);
+}
+
+.menu-button:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+.menu-button.highlight { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
+
+/* Small Language Selector in Corner */
+.lang-corner-container {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+}
+
+.lang-btn-small {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #888;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.lang-btn-small:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+}
+
+.lang-dropdown.corner-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: rgba(9, 9, 11, 0.95);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 6px;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 110;
+}
+
+.lang-option {
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.15s ease;
+}
+
+.lang-option:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+.lang-option.active { background: rgba(255, 255, 255, 0.1); color: #fff; font-weight: 600; }
+
+/* Brightness Slider in Menu Stack */
+.brightness-stack-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 99px;
+    color: #555;
+    margin-top: 8px;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.menu-brightness-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 3px;
+    background: #222;
+    border-radius: 5px;
+    outline: none;
+}
+
+.menu-brightness-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #666;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #333;
+    transition: background 0.2s;
+}
+
+.menu-brightness-slider::-webkit-slider-thumb:hover {
+    background: #aaa;
+}
+
+.empty-state {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+}
+
+.empty-content {
+    display: flex; flex-direction: column; align-items: center; width: 100%;
+}
+
+.empty-content h1 {
+    font-size: 8rem; font-weight: 900; letter-spacing: -0.06em;
+    margin-bottom: 0px; opacity: 0.9;
+    background: linear-gradient(to bottom right, #fff, #aaa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: dramaticEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.2s;
+}
+
+/* Exit Confirm Dialog Styles */
+.exit-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.exit-confirm-card {
+    background: #09090b;
+    border: 1px solid var(--glass-border);
+    padding: 24px 32px;
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exit-confirm-card p {
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    color: #aaa;
+}
+
+.exit-confirm-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.confirm-btn {
+    padding: 10px 24px;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 80px;
+}
+
+.confirm-btn.yes { background: #fff; color: #000; }
+.confirm-btn.yes:hover { background: #ddd; transform: translateY(-1px); }
+
+.confirm-btn.no { background: rgba(255,255,255,0.05); color: #fff; }
+.confirm-btn.no:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
+
+/* Terminated Screen */
+.terminated-screen {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #000; z-index: 9999;
+}
+
+.terminated-content p {
+    font-family: serif; font-style: italic; font-size: 2rem; color: #444; letter-spacing: 0.1em;
+    animation: pulseFade 2s infinite ease-in-out;
+}
+
+@keyframes pulseFade { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.6; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+@keyframes dramaticEntrance {
+    0% { opacity: 0; filter: blur(20px); transform: translateY(40px) scale(0.95); }
+    100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 1024px) {
+    .empty-content h1 { font-size: 4rem; }
+}
