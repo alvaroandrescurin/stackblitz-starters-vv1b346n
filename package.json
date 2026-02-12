@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.170.0" 
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
@@ -21,17 +22,18 @@
   "build": {
     "appId": "com.tuusuario.mijuego",
     "productName": "Mi Juego de IA",
-    "icon": "Proyecto-nuevo-_1_",
     "directories": {
       "output": "build_out"
     },
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "icon.ico"
     },
     "files": [
       "dist/**/*",
       "main.js",
-      "package.json"
+      "package.json",
+      "icon.ico"
     ]
   }
 }
