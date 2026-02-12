@@ -21,6 +21,7 @@
   "build": {
     "appId": "com.tuusuario.mijuego",
     "productName": "Mi Juego de IA",
+    "icon": "Proyecto-nuevo-_1_",
     "directories": {
       "output": "build_out"
     },
