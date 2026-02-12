@@ -1,35 +1,31 @@
 {
   "name": "indexmini",
+ "version": "1.0.0",
   "main": "main.js",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "electron:start": "electron .",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@google/genai": "^0.7.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-    "electron": "^latest"
+    "dist": "electron-builder"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
-  }
+    "electron": "^33.0.0",
+    "electron-builder": "^24.13.3",
+    "vite": "^6.0.0"
+  },
   "build": {
     "appId": "com.tuusuario.mijuego",
     "productName": "Mi Juego de IA",
-    "win": {
-      "target": "portable",
-      "icon": "icon.ico"
-    },
     "directories": {
-      "output": "dist"
-    }
+      "output": "build_out"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "package.json"
+    ]
+  }
 }
