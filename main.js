@@ -1,30 +1,32 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-function createWindow () {
+function createWindow() {
   const win = new BrowserWindow({
-    width: 1000,
-    height: 800,
+    width: 1280, // Un poco más grande para que se vea mejor
+    height: 720,
+    icon: path.join(__dirname, 'icon.ico'), // Aquí buscará tu icono
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
     }
-  })
+  });
 
-  // TRUCO: Si existe la carpeta "dist", carga el archivo. 
-  // Si no, intenta cargar el localhost (para cuando estés en StackBlitz).
-  const isProd = !process.env.VITE_DEV_URL;
+  // 1. Esto elimina la barra de File, Edit, View, etc.
+  win.setMenu(null);
 
-  if (app.isPackaged || isProd) {
-    win.loadFile(path.join(__dirname, 'dist/index.html'))
-  } else {
-    win.loadURL('http://localhost:3000')
-  }
+  // 2. Esto soluciona la pantalla en blanco en el .exe
+  // Carga el archivo real del juego en lugar de una URL de internet
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+  win.loadFile(indexPath);
+
+  // Opcional: Abre el juego maximizado
+  win.maximize();
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(createWindow);
 
 // Cerrar cuando todas las ventanas se cierren (estándar de Windows)
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-})
+  if (process.platform !== 'darwin') app.quit();
+});
