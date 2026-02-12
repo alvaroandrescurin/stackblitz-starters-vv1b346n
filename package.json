@@ -14,6 +14,7 @@
     "@google/genai": "^0.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+    "electron": "^latest"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
@@ -21,4 +22,14 @@
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
+  "build": {
+    "appId": "com.tuusuario.mijuego",
+    "productName": "Mi Juego de IA",
+    "win": {
+      "target": "portable",
+      "icon": "icon.ico"
+    },
+    "directories": {
+      "output": "dist"
+    }
 }
