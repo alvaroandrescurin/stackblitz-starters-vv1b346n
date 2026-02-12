@@ -12,12 +12,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm' # Esto ayuda a que no falle por falta de librerías
 
       - name: Install dependencies
         run: npm install
 
       - name: Build Web Files (Vite)
-        run: npm run build
+        run: npx vite build # <--- Añadimos 'npx' para evitar el error rojo
 
       - name: Build EXE (Electron)
         run: npx electron-builder --windows
